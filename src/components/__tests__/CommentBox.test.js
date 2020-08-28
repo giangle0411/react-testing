@@ -21,22 +21,22 @@ it('has a text area and a button', () => {
   expect(wrapped.find('button').length).toEqual(1)
 })
 
-// 2nd test - Text area change when user type in
-it('has a text area that user can type in', () => {
-  wrapped.find('textarea').simulate('change', {
-    target: { value: 'new comment' },
+describe('the text area', () => {
+  beforeEach(() => {
+    wrapped.find('textarea').simulate('change', {
+      target: { value: 'new comment' },
+    })
+    wrapped.update()
   })
-  wrapped.update()
-  expect(wrapped.find('textarea').prop('value')).toEqual('new comment')
-})
+  // 2nd test - Text area change when user type in
+  it('has a text area that user can type in', () => {
+    expect(wrapped.find('textarea').prop('value')).toEqual('new comment')
+  })
 
-// 3rd test - Text area reset when the add a comment form is submitted
-it('has an empty text area when user submit a comment', () => {
-  wrapped.find('textarea').simulate('change', {
-    target: { value: 'new comment' },
+  // 3rd test - Text area reset when the add a comment form is submitted
+  it('has an empty text area when user submit a comment', () => {
+    wrapped.find('form').simulate('submit')
+    wrapped.update()
+    expect(wrapped.find('textarea').prop('value')).toEqual('')
   })
-  wrapped.update()
-  wrapped.find('form').simulate('submit')
-  wrapped.update()
-  expect(wrapped.find('textarea').prop('value')).toEqual('')
 })
